@@ -1,4 +1,4 @@
-"""FAISS-GPU vector store utilities."""
+"""FAISS-backed vector store utilities with GPU fallback support."""
 
 from __future__ import annotations
 
@@ -7,14 +7,18 @@ import numpy as np
 
 
 class GpuFaissIndex:
-    """Simple FAISS GPU wrapper for cosine similarity search."""
+    """Simple FAISS cosine similarity search with GPU when available."""
 
     def __init__(self, dimension: int, gpu_id: int = 0) -> None:
         self.dimension = dimension
         self.gpu_id = gpu_id
-        self.resources = faiss.StandardGpuResources()
         cpu_index = faiss.IndexFlatIP(dimension)
-        self.index = faiss.index_cpu_to_gpu(self.resources, gpu_id, cpu_index)
+        if hasattr(faiss, "StandardGpuResources"):
+            self.resources = faiss.StandardGpuResources()
+            self.index = faiss.index_cpu_to_gpu(self.resources, gpu_id, cpu_index)
+        else:
+            self.resources = None
+            self.index = cpu_index
 
     def add(self, vectors: np.ndarray) -> None:
         self.index.add(vectors.astype(np.float32))
