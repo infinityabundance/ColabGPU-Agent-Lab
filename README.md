@@ -1,53 +1,121 @@
 # ColabGPU Agent Lab
 
-A GPU-accelerated, fully reproducible agent research lab that runs in a single Google Colab notebook.
+A GPU-accelerated, fully reproducible agent research lab that runs entirely inside a single Google Colab notebook. The goal is to make **agent research measurable, deterministic, and GPU-native** while staying lightweight enough to run on free or Pro Colab GPUs.
 
-## What this is
+## Why this exists
 
-This repo is a measurement instrument for agents: deterministic environments, GPU-backed memory, and
-telemetry that makes experiments reproducible and inspectable.
+Most agent frameworks are CPU-bound, opaque, and hard to reproduce. ColabGPU Agent Lab is the opposite:
 
-## Repo structure
+- **Colab-first**: one-click runnable, no local setup.
+- **GPU-accelerated where it matters**: embeddings, memory search, planning rollouts, and simulation.
+- **Deterministic benchmarks**: fixed seeds and metrics you can trust.
+- **Notebook-as-a-paper**: structured like a research artifact you can export.
+
+## What you get (initial roadmap)
+
+### 1) GPU-Accelerated Cognitive Stack
+
+A clear, inspectable dataflow with explicit GPU offload targets.
 
 ```
-colab-gpu-agent-lab/
-├── agent_lab.ipynb        # The paper, the lab, the demo
-├── agents/
-│   ├── base.py            # Agent interface
-│   ├── reactive.py
-│   ├── memory_agent.py
-│   └── planner_agent.py
-├── memory/
-│   ├── gpu_faiss.py       # FAISS-GPU vector store
-│   └── embeddings.py
-├── environments/
-│   ├── tool_maze.py
-│   ├── memory_drift.py
-│   └── recursive_planner.py
-├── benchmarks/
-│   └── run_all.py
-├── telemetry/
-│   ├── gpu.py
-│   └── timing.py
-├── plots/
-│   └── visualize.py
-├── requirements.txt
+[Perception] → [GPU Memory] → [Planner] → [Tool Exec] → [Reflection]
+```
+
+Planned GPU usage:
+- FAISS-GPU for memory similarity search.
+- GPU embeddings for rapid context retrieval.
+- Vectorized rollouts for planning and simulation.
+
+### 2) Agent Stress-Test Suite
+
+A set of deterministic, GPU-batched cognitive benchmarks:
+
+| Test                | What it Measures         |
+| ------------------- | ------------------------ |
+| Tool Maze           | Tool selection reasoning |
+| Memory Drift        | Long-horizon recall      |
+| Deception Detection | Self-consistency         |
+| Recursive Planning  | Depth vs compute         |
+| Energy Budget       | Reasoning efficiency     |
+
+Each test outputs:
+- Seeded run artifacts
+- Metrics (accuracy, cost proxy, step counts)
+- Plots for quick comparison
+
+### 3) Live GPU Telemetry Overlay
+
+A lightweight, notebook-native telemetry panel to monitor:
+- GPU memory
+- Tokens/sec (or tokens/step)
+- Planning depth
+- Memory growth
+- Cost proxy
+
+### 4) Notebook-as-a-Paper
+
+A single notebook structured as:
+1. Abstract
+2. Method
+3. Experiments
+4. Results
+5. Reproducibility
+
+Export to PDF to get a research-ready artifact.
+
+## Proposed repo structure
+
+```
+colabgpu-agent-lab/
+├── notebooks/
+│   └── colabgpu_agent_lab.ipynb
+├── src/
+│   ├── agents/
+│   ├── benchmarks/
+│   ├── memory/
+│   ├── planner/
+│   ├── telemetry/
+│   └── utils/
+├── assets/
+│   └── figures/
+├── data/
+│   └── seeds/
 └── README.md
 ```
 
-## Quick start (Colab)
+## Suggested stack (GPU-friendly)
 
-1. Open `agent_lab.ipynb` in Google Colab.
-2. Run the setup cell to install dependencies.
-3. Execute the GPU check and FAISS test cells.
-4. Run the Tool Maze demo to see metrics and plots.
+- **PyTorch** + **CUDA** for compute
+- **FAISS-GPU** for memory retrieval
+- **cuDF/cuML** (optional) for fast metric aggregation
+- **Plotly** or **Altair** for notebook-native plots
+- **NVML** (via `pynvml`) for GPU telemetry
 
-## Reproducibility
+## First benchmark suite (v0)
 
-- Deterministic seeds via `memory/embeddings.py`.
-- GPU VRAM telemetry via `telemetry/gpu.py`.
-- Benchmarks entry point in `benchmarks/run_all.py`.
+1. **Tool Maze**
+   - Tiny deterministic environment with tools and rewards
+   - Measures decision quality under tool constraints
+2. **Memory Drift**
+   - Sliding-window tasks with long-horizon recall
+   - Measures retention vs. compute budget
+3. **Recursive Planning**
+   - Depth-limited tree search with known optimal solutions
+   - Measures quality vs. planning depth
 
-## License
+## Quick start (planned)
 
-See [LICENSE](LICENSE).
+1. Open the notebook in Colab.
+2. Run the setup cell to install GPU dependencies.
+3. Select a benchmark and an agent policy.
+4. Run experiments and export results.
+
+## Status
+
+This repository is a **design and roadmap starter** for the full Colab notebook and benchmark harness.
+
+If you want me to proceed, I can:
+- Generate the notebook skeleton
+- Implement the first benchmark environments
+- Add the GPU telemetry overlay
+- Set up deterministic experiment exports
