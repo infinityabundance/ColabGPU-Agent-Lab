@@ -1,4 +1,4 @@
 numpy
 matplotlib
-faiss-gpu
+faiss-cpu
 torch
