@@ -1,6 +1,6 @@
 # ColabGPU Agent Lab
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ColabGPU-Agent-Lab/ColabGPU-Agent-Lab/blob/main/agent_lab.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/agent_lab.ipynb)
 
 A GPU-accelerated, fully reproducible agent research lab that runs entirely inside a single Google Colab notebook. The goal is to make **agent research measurable, deterministic, and GPU-native** while staying lightweight enough to run on free or Pro Colab GPUs.
 
