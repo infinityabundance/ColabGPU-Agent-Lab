@@ -203,7 +203,24 @@ ColabGPU-Agent-Lab/
 
 ### Running Tests
 
-Currently, there is no test infrastructure. See the INSPECTION_REPORT.md for planned improvements.
+The repository includes comprehensive test infrastructure with 13 tests covering all core components:
+
+```bash
+# Run all tests
+python tests/run_tests.py
+
+# Run individual test suites
+python tests/test_agents.py
+python tests/test_environments.py
+python tests/test_memory.py
+```
+
+Test coverage:
+- **Agents**: 4 tests (ReactiveAgent, MemoryAgent, PlannerAgent, fallback bug fix)
+- **Environments**: 5 tests (ToolMaze success/failure/exhaustion, stubs)
+- **Memory**: 4 tests (embeddings, seeding, FAISS operations)
+
+All tests should pass before submitting changes.
 
 ### Contributing
 
