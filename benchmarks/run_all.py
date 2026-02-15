@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+import os
+import sys
+
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from agents.reactive import ReactiveAgent
 from environments.tool_maze import ToolMaze
 
